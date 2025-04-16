@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<results>
+  <record>
+    <room_id>875</room_id>
+    <name>Room #875</name>
+    <age_diff>115</age_diff>
+  </record>
+  <record>
+    <room_id>83</room_id>
+    <name>Room #83</name>
+    <age_diff>115</age_diff>
+  </record>
+  <record>
+    <room_id>381</room_id>
+    <name>Room #381</name>
+    <age_diff>115</age_diff>
+  </record>
+  <record>
+    <room_id>712</room_id>
+    <name>Room #712</name>
+    <age_diff>115</age_diff>
+  </record>
+  <record>
+    <room_id>395</room_id>
+    <name>Room #395</name>
+    <age_diff>115</age_diff>
+  </record>
+</results>

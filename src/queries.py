@@ -1,12 +1,9 @@
 import json
-import logging
 from database import Database
 from typing import List, Dict, Any
 import xml.etree.ElementTree as ET
 from decimal import Decimal
 from xml.dom import minidom
-
-logger = logging.getLogger(__name__)
 
 class QueryExecutor:
     def __init__(self, db: 'Database'):
@@ -35,7 +32,6 @@ class QueryExecutor:
         for query in schema_queries:
             self.db.execute_query(query)
         self.db.connection.commit()
-        logger.info("Schema queries commited")
         self._create_indexes()
 
     def _create_indexes(self) -> None:
@@ -67,7 +63,7 @@ class QueryExecutor:
         FROM rooms r
         JOIN students s on r.id = s.room_id
         GROUP BY r.id, r.name
-        ORDER BY avg_age ASC
+        ORDER BY avg_age
         LIMIT 5
         """
 

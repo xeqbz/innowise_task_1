@@ -3,7 +3,7 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>dmy</DateStyle>
-      <IntrospectionStateNumber>768</IntrospectionStateNumber>
+      <IntrospectionStateNumber>778</IntrospectionStateNumber>
       <ServerVersion>17.2</ServerVersion>
       <StartupTime>1744791773</StartupTime>
       <TimeZones>true ACDT
@@ -804,7 +804,7 @@ false Zulu
 14704||10|C|G
 14704||-9223372036854775808|U|G
 14704||10|U|G</Grants>
-      <IntrospectionStateNumber>768</IntrospectionStateNumber>
+      <IntrospectionStateNumber>778</IntrospectionStateNumber>
       <ObjectId>16481</ObjectId>
       <OwnerName>postgres</OwnerName>
     </database>
@@ -4231,11 +4231,133 @@ false Zulu
     <schema id="266" parent="3" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>768</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-04-16.08:58:11</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>778</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-04-16.10:09:08</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>532</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
+    <table id="267" parent="266" name="rooms">
+      <ObjectId>32934</ObjectId>
+      <StateNumber>770</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <table id="268" parent="266" name="students">
+      <ObjectId>32939</ObjectId>
+      <StateNumber>770</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>postgres</OwnerName>
+    </table>
+    <column id="269" parent="267" name="id">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="270" parent="267" name="name">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="271" parent="267" name="rooms_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>32937</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>770</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="272" parent="267" name="rooms_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>32938</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>770</StateNumber>
+      <UnderlyingIndexId>32937</UnderlyingIndexId>
+    </key>
+    <column id="273" parent="268" name="id">
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="274" parent="268" name="name">
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="275" parent="268" name="room_id">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>integer|0s</StoredType>
+      <TypeId>23</TypeId>
+    </column>
+    <column id="276" parent="268" name="sex">
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>varchar(1)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="277" parent="268" name="birthday">
+      <NotNull>1</NotNull>
+      <Position>5</Position>
+      <StateNumber>770</StateNumber>
+      <StoredType>timestamp|0s</StoredType>
+      <TypeId>1114</TypeId>
+    </column>
+    <foreign-key id="278" parent="268" name="students_room_id_fkey">
+      <ColNames>room_id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>32944</ObjectId>
+      <StateNumber>770</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>32934</RefTableId>
+    </foreign-key>
+    <index id="279" parent="268" name="students_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>32942</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>770</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="280" parent="268" name="idx_room_id">
+      <ColNames>room_id</ColNames>
+      <ObjectId>32955</ObjectId>
+      <StateNumber>773</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <index id="281" parent="268" name="idx_sex">
+      <ColNames>sex</ColNames>
+      <ObjectId>32957</ObjectId>
+      <StateNumber>773</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+      <CollationNames>default</CollationNames>
+      <CollationIds>100</CollationIds>
+      <CollationParentNames>pg_catalog</CollationParentNames>
+    </index>
+    <index id="282" parent="268" name="idx_birthday">
+      <ColNames>birthday</ColNames>
+      <ObjectId>32956</ObjectId>
+      <StateNumber>773</StateNumber>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="283" parent="268" name="students_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>32943</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>770</StateNumber>
+      <UnderlyingIndexId>32942</UnderlyingIndexId>
+    </key>
   </database-model>
 </dataSource>
