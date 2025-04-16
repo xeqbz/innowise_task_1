@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 class Database:
-    def __init__(self, config_path: str):
+    def __init__(self, config_path: str = 'config/config.ini'):
         self.config = self.load_config(config_path)
         self.connection: Optional[psycopg2.extensions.connection] = None
         self.cursor = None
@@ -22,11 +22,11 @@ class Database:
     def connect(self) -> None:
         try:
             self.connection = psycopg2.connect(
-                host = self.config['database']['host'],
-                user = self.config['database']['user'],
-                password = self.config['database']['password'],
-                database = self.config['database']['database'],
-                port = self.config['database']['port']
+                host = self.config['DATABASE']['host'],
+                user = self.config['DATABASE']['user'],
+                password = self.config['DATABASE']['password'],
+                database = self.config['DATABASE']['database'],
+                port = self.config['DATABASE']['port']
             )
             self.cursor = self.connection.cursor()
             logger.info("Successfully connected to PostgreSQL")

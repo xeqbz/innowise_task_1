@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+config/*.ini
+*.log
+data/
+test_*.json
+output/

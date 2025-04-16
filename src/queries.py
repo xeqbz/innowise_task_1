@@ -1,8 +1,10 @@
 import json
 import logging
-from src.database import Database
+from database import Database
 from typing import List, Dict, Any
 import xml.etree.ElementTree as ET
+from decimal import Decimal
+from xml.dom import minidom
 
 logger = logging.getLogger(__name__)
 
@@ -14,13 +16,13 @@ class QueryExecutor:
         schema_queries = [
             """
             CREATE TABLE IF NOT EXISTS rooms (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY,
                 name VARCHAR(255) NOT NULL
             )
             """,
             """
             CREATE TABLE IF NOT EXISTS students (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 room_id INTEGER NOT NULL,
                 sex VARCHAR(1) NOT NULL,
@@ -32,6 +34,8 @@ class QueryExecutor:
 
         for query in schema_queries:
             self.db.execute_query(query)
+        self.db.connection.commit()
+        logger.info("Schema queries commited")
         self._create_indexes()
 
     def _create_indexes(self) -> None:
@@ -43,6 +47,7 @@ class QueryExecutor:
 
         for idx in indexes:
             self.db.execute_query(idx)
+        self.db.connection.commit()
 
     def get_room_student_count(self, output_format: str) -> str:
         query = """
@@ -96,9 +101,12 @@ class QueryExecutor:
         results = self.db.execute_query(query)
         return self._format_output(results, output_format)
 
-    def _format_ouput(self, data: List[Dict[str, Any]], output_format: str) -> str:
+    def _format_output(self, data: List[Dict[str, Any]], output_format: str) -> str:
         formatted_data = [
-            {desc[0]: value for desc, value in zip(self.db.cursor.description, row)}
+            {
+                key.name: float(value) if isinstance(value, Decimal) else value
+                for key, value in zip(self.db.cursor.description, row)
+            }
             for row in data
         ]
         if output_format.lower() == "json":
@@ -110,4 +118,6 @@ class QueryExecutor:
                 for key, value in item.items():
                     field = ET.SubElement(record, key)
                     field.text = str(value)
-            return ET.tostring(root, encoding="utf-8", method="xml")
+            rough_string = ET.tostring(root, encoding="unicode", method="xml")
+            parsed = minidom.parseString(rough_string)
+            return parsed.toprettyxml(indent="  ", encoding=None, newl='\n')
