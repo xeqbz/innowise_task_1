@@ -1,0 +1,54 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./data:/innowise_task_1/data
+      - ./output:/innowise_task_1/output
+      - ./config:/innowise_task_1/config
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["python", "src/main.py", "--students", "data/students.json", "--rooms", "data/rooms.json", "--format", "xml"]
+    networks:
+      - app-network
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./tests:/innowise_task_1/tests
+    command: ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
+    networks:
+      - app-network
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: innowise_task_1_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5435:5435"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge
