@@ -7,7 +7,32 @@ import os
 
 logger = logging.getLogger(__name__)
 
+
 def main():
+    """
+        Entry point for the application.
+
+        This script performs the following steps:
+        1. Parses command-line arguments (paths to students and rooms JSON files, output format).
+        2. Connects to the database and creates the schema.
+        3. Loads room and student data from JSON files into the database.
+        4. Executes a series of SQL queries and writes the results to output files in either JSON or XML format.
+
+        Command-line arguments:
+            --students : str
+                Path to the JSON file containing student data.
+            --rooms : str
+                Path to the JSON file containing room data.
+            --format : str, optional
+                Output format: either 'json' or 'xml'. Default is 'json'.
+
+        Output:
+            Resulting files are saved in the 'output/' directory with names like:
+            - Room student count.{json|xml}
+            - Lowest age room.{json|xml}
+            - Highest age diff rooms.{json|xml}
+            - Mixed sex rooms.{json|xml}
+    """
     parser = argparse.ArgumentParser(description="Insert data in database")
     parser.add_argument('--students', required=True, help="Path to students JSON file")
     parser.add_argument('--rooms', required=True, help="Path to rooms JSON file")
@@ -48,6 +73,7 @@ def main():
         logger.error(f"Error: {e}")
     finally:
         db.disconnect()
+
 
 if __name__ == '__main__':
     main()

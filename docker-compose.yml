@@ -4,13 +4,25 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./data:/app/data
-      - ./output:/app/output
-      - ./config:/app/config
+      - ./data:/innowise_task_1/data
+      - ./output:/innowise_task_1/output
+      - ./config:/innowise_task_1/config
     depends_on:
       db:
         condition: service_healthy
     command: ["python", "src/main.py", "--students", "data/students.json", "--rooms", "data/rooms.json", "--format", "xml"]
+    networks:
+      - app-network
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./tests:/innowise_task_1/tests
+    command: ["python", "-m", "unittest", "discover", "-s", "tests", "-v"]
     networks:
       - app-network
     environment:
